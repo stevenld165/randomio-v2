@@ -7,4 +7,5 @@ export interface Show {
   coverImg: string
   releaseYear: string
   seasons: number[]
+  episodeCount: number
 }

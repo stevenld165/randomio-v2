@@ -18,9 +18,13 @@ class CinemetaService {
     const showMetaJson = ((await showMetaRes.json()) as CinemetaResponse).meta
 
     const seasons = new Set<number>()
+    let episodeCount = 0
 
     for (const video of showMetaJson.videos) {
-      if (video.released) seasons.add(video.season)
+      if (video.released) {
+        seasons.add(video.season)
+        episodeCount++
+      }
     }
 
     const show: Show = {
@@ -31,6 +35,7 @@ class CinemetaService {
       coverImg: showMetaJson.poster,
       releaseYear: showMetaJson.releaseInfo,
       seasons: seasons.values().toArray(),
+      episodeCount: episodeCount,
     }
 
     return show
