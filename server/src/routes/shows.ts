@@ -2,6 +2,10 @@ import { Request, Response } from "express"
 import { CinemetaResponse } from "../types/api-types"
 import { Show } from "../types/dtos"
 
+import CinemetaService from "../services/CinemetaService"
+import { shows } from "../db/schema"
+import { db } from "../database"
+
 const express = require("express")
 const router = express.Router()
 
@@ -20,42 +24,40 @@ router.get("/search", async (req: Request, res: Response) => {
 
     console.log("IMDB ID found: " + imdbId)
 
-    console.log("Fetching show metadata")
-    const showMetaRes = await fetch(
-      `https://v3-cinemeta.strem.io/meta/series/${imdbId}.json`,
-    )
-
-    console.log("Show metadata found: ", showMetaRes)
-
-    if (!showMetaRes.ok) {
-      console.log("ERROR!")
-      throw new Error("" + showMetaRes.status)
-    }
-
-    const showMetaJson = ((await showMetaRes.json()) as CinemetaResponse).meta
-
-    const seasons = new Set<number>()
-
-    for (const video of showMetaJson.videos) {
-      if (video.released) seasons.add(video.season)
-    }
-
-    const show: Show = {
-      id: 0,
-      title: showMetaJson.name,
-      imdbId: showMetaJson.imdb_id,
-      desc: showMetaJson.description,
-      backgroundImg: showMetaJson.background,
-      coverImg: showMetaJson.poster,
-      releaseYear: showMetaJson.releaseInfo,
-      seasons: seasons.values().toArray(),
-    }
+    const show = await CinemetaService.getShowByIMDBId(imdbId)
 
     res.json(show)
   } catch (error) {
     console.error("Error found")
     res.status(400).send("Something went wrong!")
   }
+})
+
+router.post("/add", async (req: Request, res: Response) => {
+  const { imdbId } = req.body
+
+  // Add verification of imdb id that it is valid looking at leasd
+  try {
+    const show = await CinemetaService.getShowByIMDBId(imdbId)
+
+    // Add to db
+    const showEntry: typeof shows.$inferInsert = {
+      ...show,
+    }
+
+    console.log("Adding to DB")
+    const dbInsert = await db
+      .insert(shows)
+      .values(showEntry)
+      .onConflictDoUpdate({ target: shows.imdbId, set: showEntry })
+      .returning()
+
+    res.json(dbInsert)
+  } catch (error) {
+    res.status(400).send("Something went wrong!")
+  }
+
+  res.json(imdbId)
 })
 
 module.exports = router

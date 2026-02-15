@@ -1,5 +1,5 @@
 export interface Show {
-  id: number
+  id?: number
   title: string
   desc?: string
   imdbId: string
