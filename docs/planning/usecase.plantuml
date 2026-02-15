@@ -1,0 +1,31 @@
+@startuml
+left to right direction
+actor User as u
+actor OMDB as omdb
+actor Cinemeta as stremio
+
+rectangle Longforum {
+  usecase "Roll new episode" as roll
+  usecase "Go to previous episode" as back
+  usecase "Handle edit show list" as showlist
+  usecase "Add to show list" as addshow
+  usecase "Remove from show list" as removeshow
+  usecase "Edit show filters" as editshow
+}
+
+u --> roll
+u --> addshow
+u --> removeshow
+u --> editshow
+
+
+roll <.. back : <<extends>>
+
+addshow ..> showlist : <<includes>>
+removeshow ..> showlist : <<includes>>
+editshow ..> showlist : <<includes>>
+
+roll -- stremio
+addshow -- omdb
+
+@enduml

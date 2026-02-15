@@ -1,0 +1,30 @@
+@startuml
+class User {
+  username
+  password
+}
+
+class ShowList {
+}
+
+class Show {
+  imdbId
+  title
+  backgroundImg
+  coverImg
+  seasons: int,
+  desc
+}
+
+class ShowListEntry {
+  seasonsExcluded
+  specialEpisodes
+}
+
+User "1" -- "1" ShowList : has >
+ShowList "*" -- "*" Show : contains >
+
+(ShowList, Show) .. ShowListEntry
+
+
+@enduml

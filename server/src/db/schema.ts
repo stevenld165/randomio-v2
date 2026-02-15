@@ -13,6 +13,7 @@ export const shows = sqliteTable("shows_table", {
     .notNull()
     .$type<number[]>()
     .default(sql`'[]'`),
+  episodeCount: int("episode_count"),
 })
 
 export const users = sqliteTable("users_table", {
@@ -33,4 +34,5 @@ export const showListEntries = sqliteTable("show_list_entries_table", {
     .default(sql`'[]'`),
   userId: int("user_id").references(() => users.id),
   showId: int("show_id").references(() => shows.id),
+  enabled: int({ mode: "boolean" }).default(sql`1`),
 })
