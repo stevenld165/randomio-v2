@@ -1,37 +1,43 @@
 import { Request, Response } from "express"
-import { eq } from "drizzle-orm"
+import { eq, and } from "drizzle-orm"
 
 const express = require("express")
 const router = express.Router()
 
 import { db } from "../database"
 import { showListEntries } from "../db/schema"
+import { AuthRequest } from "../types/internal-types"
+import { authenticate } from "../middleware/auth"
 
-router.get(
-  "/:userId",
-  async (req: Request<{ userId: number }>, res: Response) => {
-    const userId = req.params.userId
+router.get("/get", authenticate, async (req: AuthRequest, res: Response) => {
+  const userId = req.user?.userId
 
-    try {
-      const userShowList = await db
-        .select()
-        .from(showListEntries)
-        .where(eq(showListEntries.userId, userId))
+  console.log("TEST: " + userId)
 
-      res.json(userShowList)
-    } catch (error) {
-      res.status(400).send(error)
-    }
-    res.json("meow")
-  },
-)
+  if (userId == null) {
+    res.sendStatus(401)
+    return
+  }
 
-router.post("/add", async (req: Request, res: Response) => {
-  const { imdbId, userId } = req.body
+  try {
+    const userShowList = await db
+      .select()
+      .from(showListEntries)
+      .where(eq(showListEntries.userId, userId))
+
+    res.json(userShowList)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+  res.json("meow")
+})
+
+router.post("/add", authenticate, async (req: AuthRequest, res: Response) => {
+  const { imdbId } = req.body
 
   try {
     const showListEntry: typeof showListEntries.$inferInsert = {
-      userId: userId,
+      userId: req.user?.userId,
       imdbId: imdbId,
     }
 
@@ -46,57 +52,90 @@ router.post("/add", async (req: Request, res: Response) => {
   }
 })
 
-router.delete("/delete", async (req: Request, res: Response) => {
-  const { entryId } = req.body
+router.delete(
+  "/delete",
+  authenticate,
+  async (req: AuthRequest, res: Response) => {
+    const { entryId } = req.body
 
-  try {
-    const dbResponse = await db
-      .delete(showListEntries)
-      .where(eq(showListEntries.id, entryId))
+    try {
+      if (req.user == null) throw new Error("User is not logged in")
 
-    res.json(dbResponse)
-  } catch (error) {
-    res.status(400).send(error)
-  }
-})
+      const dbResponse = await db
+        .delete(showListEntries)
+        .where(
+          and(
+            eq(showListEntries.id, entryId),
+            eq(showListEntries.userId, req.user.userId),
+          ),
+        )
 
-router.patch("/update-filters", async (req: Request, res: Response) => {
-  const { entryId, excludedSeasons, extraEpisodes } = req.body
-
-  try {
-    const updatedFields: typeof showListEntries.$inferInsert = {
-      excludedSeasons: excludedSeasons,
-      extraEpisodes: extraEpisodes,
+      res.json(dbResponse)
+    } catch (error) {
+      res.status(400).send(error)
     }
+  },
+)
 
-    const dbResponse = await db
-      .update(showListEntries)
-      .set(updatedFields)
-      .where(eq(showListEntries.id, entryId))
+router.patch(
+  "/update-filters",
+  authenticate,
+  async (req: AuthRequest, res: Response) => {
+    const { entryId, excludedSeasons, extraEpisodes } = req.body
 
-    res.json(dbResponse)
-  } catch (error) {
-    res.status(400).send(error)
-  }
-})
+    try {
+      if (req.user == null) throw new Error("User is not logged in")
 
-router.patch("/toggle", async (req: Request, res: Response) => {
-  const { entryId, enabled } = req.body
+      const updatedFields: typeof showListEntries.$inferInsert = {
+        excludedSeasons: excludedSeasons,
+        extraEpisodes: extraEpisodes,
+      }
 
-  try {
-    const updatedFields: typeof showListEntries.$inferInsert = {
-      enabled: enabled,
+      const dbResponse = await db
+        .update(showListEntries)
+        .set(updatedFields)
+        .where(
+          and(
+            eq(showListEntries.id, entryId),
+            eq(showListEntries.userId, req.user.userId),
+          ),
+        )
+
+      res.json(dbResponse)
+    } catch (error) {
+      res.status(400).send(error)
     }
+  },
+)
 
-    const dbResponse = await db
-      .update(showListEntries)
-      .set(updatedFields)
-      .where(eq(showListEntries.id, entryId))
+router.patch(
+  "/toggle",
+  authenticate,
+  async (req: AuthRequest, res: Response) => {
+    const { entryId, enabled } = req.body
 
-    res.json(dbResponse)
-  } catch (error) {
-    res.status(400).send(error)
-  }
-})
+    try {
+      if (req.user == null) throw new Error("User is not logged in")
+
+      const updatedFields: typeof showListEntries.$inferInsert = {
+        enabled: enabled,
+      }
+
+      const dbResponse = await db
+        .update(showListEntries)
+        .set(updatedFields)
+        .where(
+          and(
+            eq(showListEntries.id, entryId),
+            eq(showListEntries.userId, req.user.userId),
+          ),
+        )
+
+      res.json(dbResponse)
+    } catch (error) {
+      res.status(400).send(error)
+    }
+  },
+)
 
 module.exports = router

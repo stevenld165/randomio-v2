@@ -22,6 +22,12 @@ export const users = sqliteTable("users_table", {
   password: text().notNull(),
 })
 
+export const refreshTokens = sqliteTable("refresh_tokens_table", {
+  id: int().primaryKey({ autoIncrement: true }),
+  refreshToken: text("refresh_token").notNull(),
+  userId: int("user_id").references(() => users.id),
+})
+
 export const showListEntries = sqliteTable("show_list_entries_table", {
   id: int().primaryKey({ autoIncrement: true }),
   excludedSeasons: text("excluded_seasons", { mode: "json" })

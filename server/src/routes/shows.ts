@@ -29,7 +29,7 @@ router.get("/search", async (req: Request, res: Response) => {
     res.json(show)
   } catch (error) {
     console.error("Error found")
-    res.status(400).send("Something went wrong!")
+    res.status(400).send(error)
   }
 })
 
@@ -54,7 +54,7 @@ router.post("/add", async (req: Request, res: Response) => {
 
     res.json(dbInsert)
   } catch (error) {
-    res.status(400).send("Something went wrong!")
+    res.status(400).send(error)
   }
 
   res.json(imdbId)
