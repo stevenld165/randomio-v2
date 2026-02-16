@@ -24,7 +24,7 @@ export const users = sqliteTable("users_table", {
 
 export const showListEntries = sqliteTable("show_list_entries_table", {
   id: int().primaryKey({ autoIncrement: true }),
-  includedSeasons: text("included_seasons", { mode: "json" })
+  excludedSeasons: text("excluded_seasons", { mode: "json" })
     .notNull()
     .$type<number[]>()
     .default(sql`'[]'`),
@@ -33,6 +33,6 @@ export const showListEntries = sqliteTable("show_list_entries_table", {
     .$type<string[]>()
     .default(sql`'[]'`),
   userId: int("user_id").references(() => users.id),
-  showId: int("show_id").references(() => shows.id),
+  imdbId: int("imdb_id").references(() => shows.imdbId),
   enabled: int({ mode: "boolean" }).default(sql`1`),
 })
