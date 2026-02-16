@@ -39,6 +39,6 @@ export const showListEntries = sqliteTable("show_list_entries_table", {
     .$type<string[]>()
     .default(sql`'[]'`),
   userId: int("user_id").references(() => users.id),
-  imdbId: int("imdb_id").references(() => shows.imdbId),
+  imdbId: text("imdb_id").references(() => shows.imdbId),
   enabled: int({ mode: "boolean" }).default(sql`1`),
 })

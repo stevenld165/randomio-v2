@@ -1,13 +1,15 @@
 export interface CinemetaResponse {
-  meta: {
-    name: string
-    imdb_id: string
-    description: string
-    background: string
-    poster: string
-    releaseInfo: string
-    videos: CinemetaVideo[]
-  }
+  meta: CinemetaMeta
+}
+
+export interface CinemetaMeta {
+  name: string
+  imdb_id: string
+  description: string
+  background: string
+  poster: string
+  releaseInfo: string
+  videos: CinemetaVideo[]
 }
 
 export interface CinemetaVideo {
