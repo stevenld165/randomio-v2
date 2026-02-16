@@ -24,7 +24,6 @@ router.post("/login", async (req: Request, res: Response) => {
     if (user == null) throw new Error("Username/password incorrect")
 
     if (await bcrypt.compare(password, user.password)) {
-      // JWT STUFF HERE
       const tokenInfo: TokenInfo = {
         username: user.username,
         userId: user.id,
