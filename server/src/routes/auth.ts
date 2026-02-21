@@ -4,9 +4,10 @@ import { createHash } from "node:crypto"
 
 import { db } from "../database"
 import { refreshTokens, users } from "../db/schema"
-import { TokenInfo } from "../types/internal-types"
+import { AuthRequest, TokenInfo } from "../types/internal-types"
 
 import AuthService from "../services/AuthService"
+import { authenticate } from "../middleware/auth"
 
 const express = require("express")
 const router = express.Router()
@@ -129,6 +130,10 @@ router.delete("/logout", async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).send(error)
   }
+})
+
+router.get("/verify", authenticate, async (req: AuthRequest, res: Response) => {
+  res.json(req.user)
 })
 
 module.exports = router
