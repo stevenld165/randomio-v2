@@ -5,7 +5,7 @@ const express = require("express")
 const router = express.Router()
 
 import { db } from "../database"
-import { showListEntries } from "../db/schema"
+import { showListEntries, shows } from "../db/schema"
 import { AuthRequest } from "../types/internal-types"
 import { authenticate } from "../middleware/auth"
 
@@ -23,6 +23,7 @@ router.get("/get", authenticate, async (req: AuthRequest, res: Response) => {
     const userShowList = await db
       .select()
       .from(showListEntries)
+      .innerJoin(shows, eq(showListEntries.imdbId, shows.imdbId))
       .where(eq(showListEntries.userId, userId))
 
     res.json(userShowList)

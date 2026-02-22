@@ -44,7 +44,8 @@ class AuthEndpoint {
     return tokenResponse
   }
 
-  logoutRequest = async (refreshToken: string) => {
+  logoutRequest = async () => {
+    const refreshToken = await $fetch("/api/getRefreshToken")
     const res = await $fetch(`${API_URL}/auth/logout`, {
       method: "DELETE",
       body: {

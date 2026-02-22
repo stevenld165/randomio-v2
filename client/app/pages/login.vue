@@ -29,10 +29,8 @@ const onFormSubmit = async (e: FormSubmitEvent) => {
 }
 </script>
 <template>
-  <LayoutTwoColGrad
-    background-img="https://images.metahub.space/background/medium/tt3061046/img"
-  >
-    login to start rolling for random episodes!
+  <LayoutTwoColGrad>
+    <RandomioRollInfo />
     <template #black-panel>
       <h1 class="text-2xl">
         welcome to <span class="font-bold text-violet-400">randomio!</span>

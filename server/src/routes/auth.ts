@@ -44,7 +44,11 @@ router.post("/login", async (req: Request, res: Response) => {
 
       await db.insert(refreshTokens).values(refreshTokenEntry)
 
-      res.json({ accessToken: accessToken, refreshToken: refreshToken })
+      res.json({
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        username: tokenInfo.username,
+      })
     } else res.status(400).send("Username/password incorrect")
   } catch (error) {
     res.status(500).send(error)
@@ -88,7 +92,11 @@ router.post("/refresh", async (req: Request, res: Response) => {
           .set({ refreshToken: hashedNewRefreshToken })
           .where(eq(refreshTokens.id, tokenEntry.id))
 
-        res.json({ accessToken: accessToken, refreshToken: newRefreshToken })
+        res.json({
+          accessToken: accessToken,
+          refreshToken: newRefreshToken,
+          username: decodedRefreshTokenInfo.username,
+        })
       }
     }
 

@@ -52,7 +52,7 @@ router.post("/add", async (req: Request, res: Response) => {
       .onConflictDoUpdate({ target: shows.imdbId, set: showEntry })
       .returning()
 
-    res.json(dbInsert)
+    res.json(imdbId)
   } catch (error) {
     res.status(400).send(error)
   }

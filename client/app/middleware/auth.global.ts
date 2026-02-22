@@ -26,6 +26,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     // set new auth and refresh tokens
     authStore.authToken = tokenResponse.accessToken
+    authStore.username = tokenResponse.username
 
     if (to.path == "/login") return navigateTo("/")
 

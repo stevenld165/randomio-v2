@@ -9,9 +9,6 @@ definePageMeta({
 
 const authStore = useAuthStore()
 
-const showList = await ShowListEndpoint.getShowList(authStore.authToken)
-console.log(showList)
-
 const currentRoll = ref<RandomioResponse>()
 const previousRolls = ref<RandomioResponse[]>([])
 
