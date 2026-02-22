@@ -21,6 +21,7 @@
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
-    "@primevue/nuxt-module": "^4.5.4"
+    "@primevue/nuxt-module": "^4.5.4",
+    "sass-embedded": "^1.97.3"
   }
 }

@@ -11,7 +11,7 @@ class AuthEndpoint {
       },
     })
 
-    await $fetch("/api/storeRefreshToken", {
+    await useFetch("/api/storeRefreshToken", {
       method: "POST",
       body: {
         refreshToken: tokenResponse.refreshToken,
@@ -61,13 +61,19 @@ class AuthEndpoint {
   }
 
   verifyRequest = async (authToken: string) => {
-    const { data } = await useFetch(`${API_URL}/auth/verify`, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    })
+    try {
+      const data: Identity = await $fetch(`${API_URL}/auth/verify`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
 
-    return data.value as Identity
+      return data
+    } catch (error) {
+      console.error(error)
+    }
+
+    return null
   }
 }
 

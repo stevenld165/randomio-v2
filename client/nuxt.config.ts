@@ -31,7 +31,7 @@ export default defineNuxtConfig({
         preset: randomioPreset,
         options: {
           prefix: "prime",
-          darkModeSelector: "",
+          darkModeSelector: ".dark-mode",
         },
       },
     },

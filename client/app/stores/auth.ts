@@ -3,4 +3,9 @@ export const useAuthStore = defineStore("authStore", {
     authToken: "",
     username: "",
   }),
+  actions: {
+    async setToken(authToken: string) {
+      this.authToken = authToken
+    },
+  },
 })
