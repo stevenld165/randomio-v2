@@ -11,6 +11,8 @@ const showDialog = ref(false)
 const foundShow = ref<Show>()
 const loading = ref(false)
 
+const searchError = ref(false)
+
 const toast = useToast()
 
 const handleSubmitSearch = async (e: FormSubmitEvent) => {
@@ -19,7 +21,12 @@ const handleSubmitSearch = async (e: FormSubmitEvent) => {
     loading.value = true
     foundShow.value = await ShowEndpoint.getSearch(name, year)
     loading.value = false
-  } catch (error) {}
+    searchError.value = false
+  } catch (error) {
+    loading.value = false
+    searchError.value = true
+    ToastManager.showToast(toast, "error", "Something went wrong try again.")
+  }
 }
 
 const handleAddShow = async () => {
@@ -89,6 +96,17 @@ const handleAddShow = async () => {
           label="search"
           :loading="loading"
         />
+        <Message
+          v-if="searchError"
+          severity="error"
+          size="small"
+          variant="simple"
+          class="max-w-xs mt-4"
+        >
+          something went wrong, try again.<br />
+          (your search might not include enough information, try adding more
+          words or year if you haven't)
+        </Message>
       </Form>
     </div>
     <div v-else>

@@ -65,7 +65,7 @@ const onFormSubmit = async (e: FormSubmitEvent) => {
           >
         </div>
         <Button class="mt-4" type="submit" severity="secondary" label="login" />
-        <NuxtLink>create new account</NuxtLink>
+        <NuxtLink to="/create-account">create new account</NuxtLink>
         <Message
           v-if="unsuccessfulLogin"
           severity="error"

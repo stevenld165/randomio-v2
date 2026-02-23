@@ -13,7 +13,7 @@ defineProps<{
     </div>
     <img
       :src="roll?.selectedEpisode.thumbnail"
-      class="max-w-xl rounded-3xl drop-shadow-md"
+      class="max-w-xl rounded-3xl drop-shadow-md transition-all"
     />
     <div class="flex flex-col text-2xl text-zinc-200">
       <span class="font-thin"

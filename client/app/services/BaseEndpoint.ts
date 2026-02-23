@@ -24,6 +24,16 @@ class BaseEndpoint {
     return roll
   }
 
+  postBasic = async <T>(path: string, body: object) => {
+    const response: T = await $fetch(`${this.apiUrl}${path}`, {
+      method: "POST",
+      body: body,
+    })
+
+    console.log(response)
+    return response
+  }
+
   postWithAuth = async <T>(path: string, body: object) => {
     const authToken = useAuthStore().authToken
 

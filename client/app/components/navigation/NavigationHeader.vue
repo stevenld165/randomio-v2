@@ -32,7 +32,10 @@ const handleLogOut = async () => {
     },
   })
 
-  authStore.$reset()
+  authStore.authToken = ""
+  authStore.username = ""
+
+  await nextTick()
 
   return navigateTo("/login")
 }
@@ -43,15 +46,18 @@ const navMenuRef = useTemplateRef("navMenu")
   <div class="px-8 py-2 font-bold text-lg flex justify-between">
     <NuxtLink to="/"><span>randomio</span></NuxtLink>
     <Button
+      v-if="authStore.username"
       @click="navMenuRef?.toggle"
       aria-haspopup="true"
       aria-controls="navigation-menu"
       variant="text"
       severity="secondary"
-      ><span class="text-zinc-50"
-        >{{ authStore.username }}'s profile</span
-      ></Button
     >
+      <span class="text-violet-400 flex gap-1 items-center">
+        <span class="font-semibold text-zinc-50">hi</span
+        >{{ authStore.username }}!
+      </span>
+    </Button>
     <Menu
       class="text-base"
       :model="menuItems"

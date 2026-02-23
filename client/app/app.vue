@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dark-mode">
     <NuxtLayout>
       <Toast position="bottom-right" />
       <ConfirmDialog></ConfirmDialog>

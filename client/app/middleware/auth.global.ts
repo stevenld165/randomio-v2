@@ -38,6 +38,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   // if refresh token fails
   // go to login page
 
-  if (to.path == "/login") return
+  if (to.path == "/login" || to.path == "/create-account") return
   else return navigateTo("/login")
 })

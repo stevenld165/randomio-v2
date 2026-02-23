@@ -43,4 +43,8 @@ export default defineNuxtConfig({
     ],
   },
   css: ["./app/assets/css/main.css"],
+  app: {
+    pageTransition: { name: "page", mode: "out-in" },
+    layoutTransition: { name: "layout", mode: "out-in" },
+  },
 })
