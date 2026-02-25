@@ -1,6 +1,8 @@
 import AuthEndpoint from "~/services/AuthEndpoint"
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
+  console.log("RUNNING AUTH")
+
   if (import.meta.server) return
   // call verify endpoint
   const authStore = useAuthStore()

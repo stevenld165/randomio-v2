@@ -12,6 +12,10 @@
     #0c0c10;
 }
 
+.bg-black-gradient {
+  background: var(--bg-gradient);
+}
+
 html {
   font-family: "Space Grotesk", sans-serif;
   height: 100%;
@@ -38,4 +42,13 @@ body {
 .layout-enter-from,
 .layout-leave-to {
   filter: blur(0.1rem);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

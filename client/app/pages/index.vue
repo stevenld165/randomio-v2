@@ -49,12 +49,38 @@ const handleGoBack = () => {
       <RandomioRollInfo :roll="currentRoll" />
     </span>
     <template #black-panel>
-      <Button @click="getRoll" rounded variant="text" class="rounded-full!">
-        <img src="/randomio.svg" class="w-72" />
-      </Button>
-      <div class="flex flex-col gap-2">
-        <Button @click="handleOpenEpisode" label="play" />
-        <Button @click="handleGoBack" label="go back" severity="secondary" />
+      <div class="hidden sm:flex flex-col gap-8 items-center justify-center">
+        <Button @click="getRoll" rounded variant="text" class="rounded-full!">
+          <img src="/randomio.svg" class="w-5 sm:w-72" />
+        </Button>
+        <div class="flex flex-col gap-2">
+          <Button @click="handleOpenEpisode" label="play" />
+          <Button @click="handleGoBack" label="go back" severity="secondary" />
+        </div>
+      </div>
+      <div
+        class="flex sm:hidden px-4 py-2 gap-8 bg-black-gradient drop-shadow-2xl rounded-full justify-center items-center"
+      >
+        <Button @click="getRoll" rounded variant="text" class="rounded-full!">
+          <img src="/randomio.svg" class="w-24 sm:w-64" />
+        </Button>
+        <div class="flex gap-2 px-2">
+          <Button
+            @click="handleOpenEpisode"
+            rounded
+            class="rounded-full! flex flex-col"
+          >
+            <i class="pi pi-play text-3xl!"></i>
+          </Button>
+          <Button
+            @click="handleGoBack"
+            severity="contrast"
+            rounded
+            class="rounded-full! flex flex-col bg-zinc-50!"
+          >
+            <i class="pi pi-angle-double-left text-3xl!"></i>
+          </Button>
+        </div>
       </div>
     </template>
   </LayoutTwoColGrad>

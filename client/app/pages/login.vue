@@ -30,51 +30,14 @@ const onFormSubmit = async (e: FormSubmitEvent) => {
 </script>
 <template>
   <LayoutTwoColGrad>
-    <RandomioRollInfo />
+    <div class="flex flex-col justify-center h-[80vh] sm:hidden">
+      <AuthLoginForm />
+    </div>
+    <RandomioRollInfo class="hidden sm:block" />
     <template #black-panel>
-      <h1 class="text-2xl">
-        welcome to <span class="font-bold text-violet-400">randomio!</span>
-      </h1>
-      <Form
-        v-slot="$form"
-        @submit="onFormSubmit"
-        :validate-on-submit="true"
-        class="flex flex-col gap-4 items-center"
-      >
-        <div class="flex flex-col gap-1">
-          <InputText
-            name="username"
-            type="text"
-            placeholder="Username"
-            :invalid="unsuccessfulLogin"
-            fluid
-          />
-          <InputText
-            name="password"
-            type="password"
-            placeholder="Password"
-            :invalid="unsuccessfulLogin"
-            fluid
-          />
-          <Message
-            v-if="$form.username?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-            >{{ $form.username.error?.message }}</Message
-          >
-        </div>
-        <Button class="mt-4" type="submit" severity="secondary" label="login" />
-        <NuxtLink to="/create-account">create new account</NuxtLink>
-        <Message
-          v-if="unsuccessfulLogin"
-          severity="error"
-          size="small"
-          variant="simple"
-        >
-          incorrect username/password, try again
-        </Message>
-      </Form>
+      <div class="hidden sm:flex flex-col justify-center">
+        <AuthLoginForm />
+      </div>
     </template>
   </LayoutTwoColGrad>
 </template>

@@ -9,6 +9,8 @@ const cors = require("cors")
 
 const nameToImdb = require("name-to-imdb")
 
+const loggerMiddleware = require("./middleware/logger")
+
 const indexRoutes = require("./routes/index")
 const showRoutes = require("./routes/shows")
 const userRoutes = require("./routes/users")
@@ -17,6 +19,8 @@ const authRoutes = require("./routes/auth")
 
 app.use(cors())
 app.use(express.json())
+
+app.use(loggerMiddleware)
 
 app.use("/", indexRoutes)
 app.use("/shows", showRoutes)

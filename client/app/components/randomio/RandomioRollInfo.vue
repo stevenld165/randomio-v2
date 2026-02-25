@@ -6,26 +6,26 @@ defineProps<{
 }>()
 </script>
 <template>
-  <div v-if="roll" class="flex flex-col gap-6 transition-all">
-    <div class="text-4xl flex gap-2">
+  <div v-if="roll" class="flex flex-col items-start gap-6 transition-all">
+    <div class="text-2xl sm:text-4xl flex gap-2">
       <h2 class="font-bold">{{ roll?.selectedShow.title }}</h2>
       <span>({{ roll?.selectedShow.releaseYear }})</span>
     </div>
     <img
       :src="roll?.selectedEpisode.thumbnail"
-      class="max-w-xl rounded-3xl drop-shadow-md transition-all"
+      class="min-w-0 max-h-[35vh] rounded-3xl drop-shadow-md transition-all"
     />
-    <div class="flex flex-col text-2xl text-zinc-200">
+    <div class="flex flex-col text-lg sm:text-2xl text-zinc-200">
       <span class="font-thin"
         >S{{ roll?.selectedEpisode.season }} E{{
           roll?.selectedEpisode.episode
         }}</span
       >
-      <span class="font-semibold text-2xl">{{
+      <span class="font-semibold text-lg sm:text-2xl">{{
         roll?.selectedEpisode.name
       }}</span>
     </div>
-    <span class="text-zinc-200 text-xl max-w-3/4">
+    <span class="text-zinc-200 sm:text-xl sm:max-w-3/4">
       {{ roll?.selectedEpisode.description }}
     </span>
   </div>

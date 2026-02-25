@@ -22,7 +22,7 @@ const refreshData = async () => {
 }
 </script>
 <template>
-  <div class="px-36 py-24">
+  <div class="px-8 sm:px-36 py-24">
     <div class="flex flex-col gap-4 items-start">
       <h2 class="text-3xl font-bold">{{ authStore.username }}'s show list</h2>
       <ShowListAddButton @update="refreshData" />

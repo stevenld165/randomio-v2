@@ -23,27 +23,29 @@ const handleNavigateToEdit = async () => {
 }
 
 const handleLogOut = async () => {
-  await AuthEndpoint.logoutRequest()
+  // await AuthEndpoint.logoutRequest()
 
-  await $fetch("/api/storeRefreshToken", {
-    method: "POST",
-    body: {
-      refreshToken: "",
-    },
-  })
+  // const updated = await $fetch("/api/storeRefreshToken", {
+  //   method: "POST",
+  //   body: {
+  //     refreshToken: "",
+  //   },
+  // })
 
-  authStore.authToken = ""
-  authStore.username = ""
+  // console.log(updated)
 
-  await nextTick()
+  // await authStore.setToken("")
+  // authStore.username = ""
 
-  return navigateTo("/login")
+  // await nextTick()
+
+  return navigateTo("/logout")
 }
 
 const navMenuRef = useTemplateRef("navMenu")
 </script>
 <template>
-  <div class="px-8 py-2 font-bold text-lg flex justify-between">
+  <div class="px-8 py-2 font-bold text-lg flex justify-between items-center">
     <NuxtLink to="/"><span>randomio</span></NuxtLink>
     <Button
       v-if="authStore.username"
