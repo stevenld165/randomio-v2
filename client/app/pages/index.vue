@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import RandomioEndpoint from "~/services/RandomioEndpoint"
 import ShowListEndpoint from "~/services/ShowListEndpoint"
+import ToastManager from "~/services/ToastManager"
 import type { RandomioResponse } from "~/types/dtos"
 
 definePageMeta({
   layout: "minimal",
 })
 
-const authStore = useAuthStore()
-
 const currentRoll = ref<RandomioResponse>()
 const previousRolls = ref<RandomioResponse[]>([])
+
+const toast = useToast()
 
 const getRoll = async () => {
   if (currentRoll.value) {
@@ -22,6 +23,12 @@ const getRoll = async () => {
     console.log(roll)
     currentRoll.value = roll
   } catch (error) {
+    ToastManager.showToast(
+      toast,
+      "error",
+      "Something went wrong",
+      "Have you tried adding shows to your list yet?",
+    )
     console.log(error)
   }
 }

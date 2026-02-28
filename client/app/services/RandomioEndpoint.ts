@@ -1,15 +1,14 @@
 import { API_URL } from "~/constants/api"
 import type { RandomioResponse } from "~/types/dtos"
+import BaseEndpoint from "./BaseEndpoint"
 
-class RandomioEndpoint {
+class RandomioEndpoint extends BaseEndpoint {
+  constructor() {
+    super("")
+  }
+
   getNextRoll = async () => {
-    const authToken = useAuthStore().authToken
-
-    const roll: RandomioResponse = await $fetch(`${API_URL}/roll`, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    })
+    const roll = await this.getWithAuth<RandomioResponse>("/roll")
 
     return roll
   }

@@ -1,75 +1,49 @@
 import { API_URL } from "~/constants/api"
-import type { Identity, TokenResponse } from "~/types/auth"
+import type { User, TokenResponse } from "~/types/auth"
+
+import { authClient } from "~/lib/auth-client"
 
 class AuthEndpoint {
-  loginRequest = async (username: string, password: string) => {
-    const tokenResponse: TokenResponse = await $fetch(`${API_URL}/auth/login`, {
-      method: "POST",
-      body: {
-        username: username,
-        password: password,
-      },
+  loginRequest = async (email: string, password: string) => {
+    const loginResponse = await authClient.signIn.email({
+      email: email,
+      password: password,
     })
 
-    await useFetch("/api/storeRefreshToken", {
-      method: "POST",
-      body: {
-        refreshToken: tokenResponse.refreshToken,
-      },
-    })
-
-    return tokenResponse.accessToken
-  }
-
-  refreshRequest = async () => {
-    const refreshToken = (await useFetch("/api/getRefreshToken")).data.value
-    console.log("refresh token: ", refreshToken)
-
-    const tokenResponse: TokenResponse = (
-      await useFetch(`${API_URL}/auth/refresh`, {
-        method: "POST",
-        body: {
-          refreshToken: refreshToken,
-        },
-      })
-    ).data.value as TokenResponse
-
-    await $fetch("/api/storeRefreshToken", {
-      method: "POST",
-      body: {
-        refreshToken: tokenResponse.refreshToken,
-      },
-    })
-
-    return tokenResponse
+    return loginResponse.data?.user
   }
 
   logoutRequest = async () => {
-    const refreshToken = await $fetch("/api/getRefreshToken")
-    const res = await $fetch(`${API_URL}/auth/logout`, {
-      method: "DELETE",
-      body: {
-        refreshToken: refreshToken,
-      },
-    })
+    const response = await authClient.signOut()
 
-    return res
+    return response
   }
 
-  // you won't need this proabbly
-  getRefreshToken = async () => {
-    return await $fetch("/api/getRefreshToken")
-  }
-
-  verifyRequest = async (authToken: string) => {
+  getLoggedInUser = async () => {
     try {
-      const data: Identity = await $fetch(`${API_URL}/auth/verify`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      })
+      const { data: session, refetch } = authClient.useSession().value
 
-      return data
+      if (session == null) throw new Error("Not logged in")
+
+      const user: User = session.user
+
+      return user
+    } catch (error) {
+      console.error(error)
+    }
+
+    return null
+  }
+
+  checkLoggedInUser = async () => {
+    try {
+      const { data: session } = await authClient.getSession()
+
+      if (session == null) throw new Error("not logged in")
+
+      const user: User = session?.user
+
+      return user
     } catch (error) {
       console.error(error)
     }

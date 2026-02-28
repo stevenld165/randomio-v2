@@ -6,20 +6,24 @@ import { db } from "../database"
 import { showListEntries } from "../db/schema"
 import CinemetaService from "../services/CinemetaService"
 import { RandomioResponse } from "../types/dtos"
+import AuthService from "../services/AuthService"
 
 const express = require("express")
 const router = express.Router()
 
-router.get("/roll", authenticate, async (req: AuthRequest, res: Response) => {
+router.get("/roll", authenticate, async (req: Request, res: Response) => {
   try {
-    if (req.user == null) throw new Error("User is not signed in!")
+    const session = await AuthService.getSession(req)
+    const user = session?.user
+
+    if (user == null) throw new Error("User is not signed in!")
 
     const userShowListEntries = await db
       .select()
       .from(showListEntries)
       .where(
         and(
-          eq(showListEntries.userId, req.user.userId),
+          eq(showListEntries.userId, user.id),
           eq(showListEntries.enabled, true),
         ),
       )

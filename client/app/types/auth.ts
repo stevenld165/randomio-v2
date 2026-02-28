@@ -4,7 +4,12 @@ export interface TokenResponse {
   username: string
 }
 
-export interface Identity {
-  username: string
-  userId: number
+export interface User {
+  id: string
+  createdAt: Date
+  updatedAt: Date
+  email: string
+  emailVerified: boolean
+  name: string
+  image?: string | null | undefined
 }

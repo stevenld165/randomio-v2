@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { PrimeIcons } from "@primevue/core/api"
-import AuthEndpoint from "~/services/AuthEndpoint"
+import { authClient } from "~/lib/auth-client"
 
-const authStore = useAuthStore()
+const session = authClient.useSession()
+const user = computed(() => session.value.data?.user)
 
 const menuItems = computed(() => [
   {
@@ -48,7 +49,7 @@ const navMenuRef = useTemplateRef("navMenu")
   <div class="px-8 py-2 font-bold text-lg flex justify-between items-center">
     <NuxtLink to="/"><span>randomio</span></NuxtLink>
     <Button
-      v-if="authStore.username"
+      v-if="user"
       @click="navMenuRef?.toggle"
       aria-haspopup="true"
       aria-controls="navigation-menu"
@@ -56,8 +57,7 @@ const navMenuRef = useTemplateRef("navMenu")
       severity="secondary"
     >
       <span class="text-violet-400 flex gap-1 items-center">
-        <span class="font-semibold text-zinc-50">hi</span
-        >{{ authStore.username }}!
+        <span class="font-semibold text-zinc-50">hi</span>{{ user.name }}!
       </span>
     </Button>
     <Menu

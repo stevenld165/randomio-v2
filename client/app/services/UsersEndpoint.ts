@@ -1,19 +1,27 @@
 import BaseEndpoint from "./BaseEndpoint"
 
+import { authClient } from "~/lib/auth-client"
+
 class UsersEndpoint extends BaseEndpoint {
   constructor() {
-    super("/users")
+    super("/api/auth")
   }
 
-  createUserReq = async (username: string, password: string) => {
-    const body = {
-      username: username,
-      password: password,
-    }
+  createUserReq = async (email: string, password: string, name: string) => {
+    const { data, error } = await authClient.signUp.email(
+      {
+        email,
+        password,
+        name,
+      },
+      {
+        onError: (ctx) => {
+          throw new Error(ctx.error.message)
+        },
+      },
+    )
 
-    const response = await this.postBasic("/create", body)
-
-    return response
+    return data
   }
 }
 

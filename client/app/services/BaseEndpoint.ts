@@ -13,12 +13,8 @@ class BaseEndpoint {
   }
 
   getWithAuth = async <T>(path: string) => {
-    const authToken = useAuthStore().authToken
-
     const roll: T = await $fetch(`${this.apiUrl}${path}`, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
+      credentials: "include",
     })
 
     return roll
@@ -35,12 +31,8 @@ class BaseEndpoint {
   }
 
   postWithAuth = async <T>(path: string, body: object) => {
-    const authToken = useAuthStore().authToken
-
     const response: T = await $fetch(`${this.apiUrl}${path}`, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
+      credentials: "include",
       method: "POST",
       body: body,
     })
@@ -63,12 +55,8 @@ class BaseEndpoint {
       | "trace",
     body: object,
   ) => {
-    const authToken = useAuthStore().authToken
-
     const response = await $fetch(`${this.apiUrl}${path}`, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
+      credentials: "include",
       method: method,
       body: body,
     })
