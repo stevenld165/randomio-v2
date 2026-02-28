@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormResolverOptions, FormSubmitEvent } from "@primevue/forms"
-import AuthEndpoint from "~/services/AuthEndpoint"
+
 import ToastManager from "~/services/ToastManager"
 import UsersEndpoint from "~/services/UsersEndpoint"
 
@@ -11,17 +11,23 @@ const resolver = (e: FormResolverOptions) => {
   const values = e.values
 
   const errors: {
-    username: Record<string, any> | undefined
+    email: Record<string, any> | undefined
     password: Record<string, any> | undefined
     confirmPassword: Record<string, any> | undefined
+    displayName: Record<string, any> | undefined
   } = {
-    username: [],
+    email: [],
     password: [],
     confirmPassword: [],
+    displayName: [],
   }
 
-  if (!values.username) {
-    errors.username = [{ message: "username is required." }]
+  if (!values.email) {
+    errors.email = [{ message: "email is required." }]
+  }
+
+  if (!values.displayName) {
+    errors.displayName = [{ message: "display name is required." }]
   }
 
   if (!values.password) {
@@ -44,14 +50,15 @@ const onFormSubmit = async (e: FormSubmitEvent) => {
 
   try {
     await UsersEndpoint.createUserReq(
-      e.states.username?.value,
+      e.states.email?.value,
       e.states.password?.value,
+      e.states.displayName?.value,
     )
 
     ToastManager.showToast(
       toast,
       "success",
-      "Account sucessfully created, you can now login",
+      "Account sucessfully created, you are now logged in!",
     )
 
     successfulCreation.value = true
@@ -75,19 +82,34 @@ const onFormSubmit = async (e: FormSubmitEvent) => {
     >
       <div class="flex flex-col gap-1">
         <InputText
-          name="username"
-          type="text"
-          placeholder="username"
+          name="email"
+          type="email"
+          placeholder="email"
           :invalid="unsuccessfulCreation"
           fluid
         />
         <Message
-          v-if="$form.username?.invalid"
+          v-if="$form.email?.invalid"
           severity="error"
           size="small"
           variant="simple"
-          >{{ $form.username.error?.message }}
+          >{{ $form.email.error?.message }}
         </Message>
+        <InputText
+          name="displayName"
+          type="text"
+          placeholder="display name"
+          :invalid="unsuccessfulCreation"
+          fluid
+        />
+        <Message
+          v-if="$form.displayName?.invalid"
+          severity="error"
+          size="small"
+          variant="simple"
+          >{{ $form.displayName.error?.message }}
+        </Message>
+
         <InputText
           class="mt-4"
           name="password"
@@ -141,9 +163,9 @@ const onFormSubmit = async (e: FormSubmitEvent) => {
         size="small"
         variant="simple"
       >
-        created account! you can now return to the login page and login!
+        created account! you are now logged in!
       </Message>
-      <NuxtLink to="/login">go back to login page</NuxtLink>
+      <NuxtLink to="/">go back</NuxtLink>
     </div>
   </div>
 </template>

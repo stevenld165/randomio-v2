@@ -5,28 +5,6 @@ import AuthEndpoint from "~/services/AuthEndpoint"
 definePageMeta({
   layout: "minimal",
 })
-
-const authStore = useAuthStore()
-
-const unsuccessfulLogin = ref(false)
-
-const onFormSubmit = async (e: FormSubmitEvent) => {
-  console.log(e.values)
-  try {
-    const tokenResponse = await AuthEndpoint.loginRequest(
-      e.values.username,
-      e.values.password,
-    )
-
-    await authStore.setToken(tokenResponse)
-    console.log(authStore.authToken)
-
-    await navigateTo("/")
-  } catch (error) {
-    console.error(error)
-    unsuccessfulLogin.value = true
-  }
-}
 </script>
 <template>
   <LayoutTwoColGrad>

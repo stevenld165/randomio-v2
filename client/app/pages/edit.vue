@@ -1,7 +1,10 @@
 <script setup lang="ts">
-const authStore = useAuthStore()
-
+import { authClient } from "~/lib/auth-client"
+import AuthEndpoint from "~/services/AuthEndpoint"
 import ShowListEndpoint from "~/services/ShowListEndpoint"
+
+const session = authClient.useSession()
+const user = computed(() => session.value.data?.user)
 
 const showList = ref()
 
@@ -24,7 +27,7 @@ const refreshData = async () => {
 <template>
   <div class="px-8 sm:px-36 py-24">
     <div class="flex flex-col gap-4 items-start">
-      <h2 class="text-3xl font-bold">{{ authStore.username }}'s show list</h2>
+      <h2 class="text-3xl font-bold">{{ user?.name }}'s show list</h2>
       <ShowListAddButton @update="refreshData" />
     </div>
     <div class="mt-24">

@@ -9,15 +9,19 @@ const app = express()
 
 const cors = require("cors")
 
-const nameToImdb = require("name-to-imdb")
-
 const loggerMiddleware = require("./middleware/logger")
 
 const indexRoutes = require("./routes/index")
 const showRoutes = require("./routes/shows")
 const showListRoutes = require("./routes/show-list")
 
-app.use(cors())
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Replace with your frontend's origin
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Specify allowed HTTP methods
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  }),
+)
 
 app.all("/api/auth/*splat", toNodeHandler(auth))
 

@@ -1,22 +1,8 @@
 <script setup lang="ts">
 import AuthEndpoint from "~/services/AuthEndpoint"
 
-const authStore = useAuthStore()
-
 onMounted(async () => {
   await AuthEndpoint.logoutRequest()
-
-  const updated = await $fetch("/api/storeRefreshToken", {
-    method: "POST",
-    body: {
-      refreshToken: "",
-    },
-  })
-
-  console.log(updated)
-
-  await authStore.setToken("")
-  authStore.username = ""
 })
 
 const handleReturn = () => {

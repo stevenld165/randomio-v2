@@ -2,20 +2,19 @@
 import type { FormSubmitEvent } from "@primevue/forms"
 import AuthEndpoint from "~/services/AuthEndpoint"
 
-const authStore = useAuthStore()
-
 const unsuccessfulLogin = ref(false)
 
 const onFormSubmit = async (e: FormSubmitEvent) => {
   console.log(e.values)
   try {
-    const tokenResponse = await AuthEndpoint.loginRequest(
-      e.values.username,
+    const loginResponse = await AuthEndpoint.loginRequest(
+      e.values.email,
       e.values.password,
     )
 
-    await authStore.setToken(tokenResponse)
-    console.log(authStore.authToken)
+    console.log(loginResponse)
+
+    if (loginResponse == null) throw new Error("incorrect email/password")
 
     await navigateTo("/")
   } catch (error) {
@@ -37,25 +36,25 @@ const onFormSubmit = async (e: FormSubmitEvent) => {
     >
       <div class="flex flex-col gap-1">
         <InputText
-          name="username"
+          name="email"
           type="text"
-          placeholder="Username"
+          placeholder="email"
           :invalid="unsuccessfulLogin"
           fluid
         />
         <InputText
           name="password"
           type="password"
-          placeholder="Password"
+          placeholder="password"
           :invalid="unsuccessfulLogin"
           fluid
         />
         <Message
-          v-if="$form.username?.invalid"
+          v-if="$form.email?.invalid"
           severity="error"
           size="small"
           variant="simple"
-          >{{ $form.username.error?.message }}</Message
+          >{{ $form.email.error?.message }}</Message
         >
       </div>
       <Button class="mt-4" type="submit" severity="secondary" label="login" />
@@ -66,7 +65,7 @@ const onFormSubmit = async (e: FormSubmitEvent) => {
         size="small"
         variant="simple"
       >
-        incorrect username/password, try again
+        incorrect email/password, try again
       </Message>
     </Form>
   </div>
