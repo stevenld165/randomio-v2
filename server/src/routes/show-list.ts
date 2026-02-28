@@ -8,9 +8,10 @@ import { db } from "../database"
 import { showListEntries, shows } from "../db/schema"
 import { AuthRequest } from "../types/internal-types"
 import { authenticate } from "../middleware/auth"
+import AuthService from "../services/AuthService"
 
-router.get("/get", authenticate, async (req: AuthRequest, res: Response) => {
-  const userId = req.user?.userId
+router.get("/get", authenticate, async (req: Request, res: Response) => {
+  const userId = (await AuthService.getUser(req))?.id
 
   console.log("TEST: " + userId)
 
@@ -33,12 +34,14 @@ router.get("/get", authenticate, async (req: AuthRequest, res: Response) => {
   res.json("meow")
 })
 
-router.post("/add", authenticate, async (req: AuthRequest, res: Response) => {
+router.post("/add", authenticate, async (req: Request, res: Response) => {
   const { imdbId } = req.body
+
+  const userId = (await AuthService.getUser(req))?.id
 
   try {
     const showListEntry: typeof showListEntries.$inferInsert = {
-      userId: req.user?.userId,
+      userId: userId,
       imdbId: imdbId,
     }
 
@@ -53,39 +56,39 @@ router.post("/add", authenticate, async (req: AuthRequest, res: Response) => {
   }
 })
 
-router.delete(
-  "/delete",
-  authenticate,
-  async (req: AuthRequest, res: Response) => {
-    const { entryId } = req.body
+router.delete("/delete", authenticate, async (req: Request, res: Response) => {
+  const { entryId } = req.body
 
-    try {
-      if (req.user == null) throw new Error("User is not logged in")
+  const user = await AuthService.getUser(req)
 
-      const dbResponse = await db
-        .delete(showListEntries)
-        .where(
-          and(
-            eq(showListEntries.id, entryId),
-            eq(showListEntries.userId, req.user.userId),
-          ),
-        )
+  try {
+    if (user == null) throw new Error("User is not logged in")
 
-      res.json(dbResponse)
-    } catch (error) {
-      res.status(400).send(error)
-    }
-  },
-)
+    const dbResponse = await db
+      .delete(showListEntries)
+      .where(
+        and(
+          eq(showListEntries.id, entryId),
+          eq(showListEntries.userId, user.id),
+        ),
+      )
+
+    res.json(dbResponse)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+})
 
 router.patch(
   "/update-filters",
   authenticate,
-  async (req: AuthRequest, res: Response) => {
+  async (req: Request, res: Response) => {
     const { entryId, excludedSeasons, extraEpisodes } = req.body
 
+    const user = await AuthService.getUser(req)
+
     try {
-      if (req.user == null) throw new Error("User is not logged in")
+      if (user == null) throw new Error("User is not logged in")
 
       const updatedFields: typeof showListEntries.$inferInsert = {
         excludedSeasons: excludedSeasons,
@@ -98,7 +101,7 @@ router.patch(
         .where(
           and(
             eq(showListEntries.id, entryId),
-            eq(showListEntries.userId, req.user.userId),
+            eq(showListEntries.userId, user.id),
           ),
         )
 
@@ -109,34 +112,32 @@ router.patch(
   },
 )
 
-router.patch(
-  "/toggle",
-  authenticate,
-  async (req: AuthRequest, res: Response) => {
-    const { entryId, enabled } = req.body
+router.patch("/toggle", authenticate, async (req: Request, res: Response) => {
+  const { entryId, enabled } = req.body
 
-    try {
-      if (req.user == null) throw new Error("User is not logged in")
+  const user = await AuthService.getUser(req)
 
-      const updatedFields: typeof showListEntries.$inferInsert = {
-        enabled: enabled,
-      }
+  try {
+    if (user == null) throw new Error("User is not logged in")
 
-      const dbResponse = await db
-        .update(showListEntries)
-        .set(updatedFields)
-        .where(
-          and(
-            eq(showListEntries.id, entryId),
-            eq(showListEntries.userId, req.user.userId),
-          ),
-        )
-
-      res.json(dbResponse)
-    } catch (error) {
-      res.status(400).send(error)
+    const updatedFields: typeof showListEntries.$inferInsert = {
+      enabled: enabled,
     }
-  },
-)
+
+    const dbResponse = await db
+      .update(showListEntries)
+      .set(updatedFields)
+      .where(
+        and(
+          eq(showListEntries.id, entryId),
+          eq(showListEntries.userId, user.id),
+        ),
+      )
+
+    res.json(dbResponse)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+})
 
 module.exports = router
