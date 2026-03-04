@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { eq, and } from "drizzle-orm"
+import { eq, and, desc } from "drizzle-orm"
 
 const express = require("express")
 const router = express.Router()
@@ -25,6 +25,7 @@ router.get("/get", authenticate, async (req: Request, res: Response) => {
       .select()
       .from(showListEntries)
       .innerJoin(shows, eq(showListEntries.imdbId, shows.imdbId))
+      .orderBy(desc(showListEntries.id))
       .where(eq(showListEntries.userId, userId))
 
     res.json(userShowList)
