@@ -1,6 +1,8 @@
 <script setup lang="ts"></script>
 <template>
-  <div class="px-6 py-6 rounded-3xl drop-shadow max-w-fit card">
+  <div
+    class="px-6 py-6 rounded-3xl drop-shadow max-w-fit card flex flex-col gap-4 items-start"
+  >
     <slot></slot>
   </div>
 </template>

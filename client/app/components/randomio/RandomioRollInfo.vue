@@ -30,12 +30,7 @@ defineProps<{
     </span>
   </div>
   <div v-else>
-    <h2 class="text-4xl">welcome to randomio! here's how it works:</h2>
-    <div class="mt-8 flex flex-col gap-4">
-      <CardDarkTrans>1. add some shows</CardDarkTrans>
-      <CardDarkTrans>2. add some filters</CardDarkTrans>
-      <CardDarkTrans>3. roll!</CardDarkTrans>
-    </div>
+    <RandomioHelpInfo />
   </div>
 </template>
 <style lang="scss" scoped></style>
