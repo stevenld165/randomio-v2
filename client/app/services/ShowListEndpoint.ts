@@ -37,7 +37,6 @@ class ShowListEndpoint extends BaseEndpoint {
 
     const response = await this.otherWithAuth("/toggle", "patch", body)
 
-    console.log(response)
     return response
   }
 

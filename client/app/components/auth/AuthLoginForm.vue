@@ -5,14 +5,11 @@ import AuthEndpoint from "~/services/AuthEndpoint"
 const unsuccessfulLogin = ref(false)
 
 const onFormSubmit = async (e: FormSubmitEvent) => {
-  console.log(e.values)
   try {
     const loginResponse = await AuthEndpoint.loginRequest(
       e.values.email,
       e.values.password,
     )
-
-    console.log(loginResponse)
 
     if (loginResponse == null) throw new Error("incorrect email/password")
 

@@ -39,7 +39,6 @@ const defaultValues = computed(() => ({
 }))
 
 const handleSubmitOptions = async (e: FormSubmitEvent) => {
-  console.log(e.values)
   const { includedSeasons, extraEpisodes } = e.values
   const excludedSeasons = props.show.shows_table.seasons.filter(
     (season) => !includedSeasons.includes(season),
@@ -51,7 +50,6 @@ const handleSubmitOptions = async (e: FormSubmitEvent) => {
       extraEpisodes,
       props.show.show_list_entries_table.id,
     )
-    console.log(response)
 
     emit("update")
     displayOptions.value = false
@@ -88,9 +86,7 @@ const handleDelete = () => {
         emit("update")
       } catch (error) {}
     },
-    reject: () => {
-      console.log("closed")
-    },
+    reject: () => {},
   })
 }
 </script>

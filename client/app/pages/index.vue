@@ -20,7 +20,6 @@ const getRoll = async () => {
 
   try {
     const roll = await RandomioEndpoint.getNextRoll()
-    console.log(roll)
     currentRoll.value = roll
   } catch (error) {
     ToastManager.showToast(
@@ -29,7 +28,7 @@ const getRoll = async () => {
       "Something went wrong",
       "Have you tried adding shows to your list yet?",
     )
-    console.log(error)
+    console.error(error)
   }
 }
 

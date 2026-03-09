@@ -6,14 +6,11 @@ const router = express.Router()
 
 import { db } from "../database"
 import { showListEntries, shows } from "../db/schema"
-import { AuthRequest } from "../types/internal-types"
 import { authenticate } from "../middleware/auth"
 import AuthService from "../services/AuthService"
 
 router.get("/get", authenticate, async (req: Request, res: Response) => {
   const userId = (await AuthService.getUser(req))?.id
-
-  console.log("TEST: " + userId)
 
   if (userId == null) {
     res.sendStatus(401)
@@ -32,7 +29,6 @@ router.get("/get", authenticate, async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).send(error)
   }
-  res.json("meow")
 })
 
 router.post("/add", authenticate, async (req: Request, res: Response) => {

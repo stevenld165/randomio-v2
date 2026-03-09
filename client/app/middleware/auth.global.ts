@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   // call verify endpoint
 
   const identity = await AuthEndpoint.checkLoggedInUser()
-  console.log("IDENTITY: ", identity)
+  //console.log("IDENTITY: ", identity)
 
   // if positive response, keep going
   if (identity) {
@@ -17,26 +17,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     return
   }
-
-  // if negative response
-  // call refresh token
-  // try {
-  //   const tokenResponse = await AuthEndpoint.refreshRequest()
-  //   console.log("Token res: ", tokenResponse)
-
-  //   // set new auth and refresh tokens
-  //   authStore.authToken = tokenResponse.accessToken
-  //   authStore.username = tokenResponse.username
-
-  //   if (to.path == "/login") return navigateTo("/")
-
-  //   return
-  // } catch (error) {
-  //   console.log("Failed refresh attempt")
-  // }
-
-  // if refresh token fails
-  // go to login page
 
   if (to.path == "/login" || to.path == "/create-account") return
   else return navigateTo("/login")

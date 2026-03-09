@@ -1,7 +1,6 @@
 import { Request, Response } from "express"
 import { eq, and } from "drizzle-orm"
 import { authenticate } from "../middleware/auth"
-import { AuthRequest } from "../types/internal-types"
 import { db } from "../database"
 import { showListEntries } from "../db/schema"
 import CinemetaService from "../services/CinemetaService"
@@ -18,6 +17,8 @@ router.get("/roll", authenticate, async (req: Request, res: Response) => {
 
     if (user == null) throw new Error("User is not signed in!")
 
+    // get and pick show
+
     const userShowListEntries = await db
       .select()
       .from(showListEntries)
@@ -33,6 +34,8 @@ router.get("/roll", authenticate, async (req: Request, res: Response) => {
 
     const randomIndex = Math.floor(Math.random() * userShowListEntries.length)
     const selectedShow = userShowListEntries[randomIndex]
+
+    // get and pick episode
 
     const selectedShowMeta = await CinemetaService.getShowMetaByIMDBId(
       selectedShow?.imdbId ?? "",
