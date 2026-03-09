@@ -26,7 +26,6 @@ class BaseEndpoint {
       body: body,
     })
 
-    console.log(response)
     return response
   }
 
@@ -37,7 +36,6 @@ class BaseEndpoint {
       body: body,
     })
 
-    console.log(response)
     return response
   }
 
@@ -61,7 +59,6 @@ class BaseEndpoint {
       body: body,
     })
 
-    console.log(response)
     return response
   }
 }

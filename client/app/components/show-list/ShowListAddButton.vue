@@ -37,8 +37,6 @@ const handleAddShow = async () => {
 
     const response = await ShowListEndpoint.addEntryReq(imdbIdRes)
 
-    console.log(response)
-
     ToastManager.showToast(toast, "success", "Sucessfully added show!")
     showDialog.value = false
 

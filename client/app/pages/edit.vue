@@ -13,12 +13,10 @@ onMounted(async () => {
 })
 
 const refreshData = async () => {
-  console.log("refreshing data")
   try {
     const data = await ShowListEndpoint.getShowList()
 
     showList.value = data
-    console.log(showList.value)
   } catch (error) {
     console.error(error)
   }

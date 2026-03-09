@@ -24,22 +24,6 @@ const handleNavigateToEdit = async () => {
 }
 
 const handleLogOut = async () => {
-  // await AuthEndpoint.logoutRequest()
-
-  // const updated = await $fetch("/api/storeRefreshToken", {
-  //   method: "POST",
-  //   body: {
-  //     refreshToken: "",
-  //   },
-  // })
-
-  // console.log(updated)
-
-  // await authStore.setToken("")
-  // authStore.username = ""
-
-  // await nextTick()
-
   return navigateTo("/logout")
 }
 
