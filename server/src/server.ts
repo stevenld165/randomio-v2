@@ -17,7 +17,7 @@ const showListRoutes = require("./routes/show-list")
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Replace with your frontend's origin
+    origin: process.env.CLIENT_URL!, // Replace with your frontend's origin
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Specify allowed HTTP methods
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   }),
