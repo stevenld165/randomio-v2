@@ -14,7 +14,7 @@ RUN npm i -g serve
 
 COPY . .
 
-RUN nuxt generate
+RUN npm run generate
 
 EXPOSE 8080
 
