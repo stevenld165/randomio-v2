@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { eq, and, desc } from "drizzle-orm"
 
-const express = require("express")
+import express from "express"
 const router = express.Router()
 
 import { db } from "../database"
@@ -137,4 +137,4 @@ router.patch("/toggle", authenticate, async (req: Request, res: Response) => {
   }
 })
 
-module.exports = router
+export default router

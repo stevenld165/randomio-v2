@@ -7,7 +7,7 @@ import CinemetaService from "../services/CinemetaService"
 import { RandomioResponse } from "../types/dtos"
 import AuthService from "../services/AuthService"
 
-const express = require("express")
+import express from "express"
 const router = express.Router()
 
 router.get("/roll", authenticate, async (req: Request, res: Response) => {
@@ -71,4 +71,4 @@ router.get("/roll", authenticate, async (req: Request, res: Response) => {
   }
 })
 
-module.exports = router
+export default router

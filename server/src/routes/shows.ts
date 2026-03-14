@@ -6,7 +6,7 @@ import CinemetaService from "../services/CinemetaService"
 import { shows } from "../db/schema"
 import { db } from "../database"
 
-const express = require("express")
+import express from "express"
 const router = express.Router()
 
 const nameToImdb = require("name-to-imdb")
@@ -60,4 +60,4 @@ router.post("/add", async (req: Request, res: Response) => {
   res.json(imdbId)
 })
 
-module.exports = router
+export default router

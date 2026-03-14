@@ -4,16 +4,18 @@ import { Show } from "./types/dtos"
 import { auth } from "./auth"
 import { toNodeHandler } from "better-auth/node"
 
-const express = require("express")
+import express from "express"
 const app = express()
 
 const cors = require("cors")
 
 import { logger } from "./middleware/logger"
 
-const indexRoutes = require("./routes/index")
-const showRoutes = require("./routes/shows")
-const showListRoutes = require("./routes/show-list")
+import indexRoutes from "./routes/index"
+import showRoutes from "./routes/shows"
+import showListRoutes from "./routes/show-list"
+
+console.log("SERVER STARTED")
 
 app.use(
   cors({
