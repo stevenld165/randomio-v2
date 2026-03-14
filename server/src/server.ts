@@ -9,7 +9,7 @@ const app = express()
 
 const cors = require("cors")
 
-const loggerMiddleware = require("./middleware/logger")
+import { logger } from "./middleware/logger"
 
 const indexRoutes = require("./routes/index")
 const showRoutes = require("./routes/shows")
@@ -27,7 +27,7 @@ app.all("/api/auth/*splat", toNodeHandler(auth))
 
 app.use(express.json())
 
-app.use(loggerMiddleware)
+app.use(logger)
 
 app.use("/", indexRoutes)
 app.use("/shows", showRoutes)
