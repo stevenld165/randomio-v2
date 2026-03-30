@@ -13,7 +13,9 @@ const checkboxValues = ref(["1", "2", "3"])
       </CardDarkTrans>
       <CardDarkTrans>
         <span class="font-semibold">2. add some filters</span>
-        <div class="rounded-2xl p-4 bg-zinc-50 text-(--prime-dialog-color)">
+        <div
+          class="rounded-2xl p-4 bg-(--prime-dialog-background) text-(--prime-dialog-color)"
+        >
           <span class="text-lg font-semibold">included seasons:</span>
           <NuxtLink to="/edit">
             <div class="flex gap-2">
