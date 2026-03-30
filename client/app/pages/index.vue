@@ -38,7 +38,7 @@ const stremioURL = computed(
 )
 
 const handleOpenEpisode = () => {
-  window.open(stremioURL.value)
+  window.open(stremioURL.value, "_self")
 }
 
 const handleGoBack = () => {
