@@ -1,5 +1,13 @@
+<script setup lang="ts">
+useHead({
+  htmlAttrs: {
+    class: "dark-mode",
+  },
+})
+</script>
+
 <template>
-  <div class="dark-mode">
+  <div>
     <NuxtLayout>
       <Toast position="bottom-right" />
       <ConfirmDialog></ConfirmDialog>
