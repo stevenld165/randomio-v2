@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { InputText } from "primevue"
 import type { MenuItem } from "primevue/menuitem"
+import SecurityForm from "~/components/settings/SecurityForm.vue"
+import UserInfoForm from "~/components/settings/UserInfoForm.vue"
 import { authClient } from "~/lib/auth-client"
 
 const session = authClient.useSession()
@@ -35,13 +38,15 @@ const menuItems = ref<MenuItem[]>([
       <h2 class="text-3xl font-bold">{{ user?.name }}'s settings</h2>
     </div>
     <div class="mt-18 flex gap-4">
-      <Menu :model="menuItems" ref="menu" />
+      <Menu :model="menuItems" ref="menu" class="max-h-fit" />
       <div class="px-8">
         <template v-if="selectedOption == SettingsMenuOptions.USER_INFO">
-          <h3 class="text-xl font-bold">user settings:</h3>
+          <h3 class="text-xl font-bold">user info:</h3>
+          <UserInfoForm />
         </template>
         <template v-else-if="selectedOption == SettingsMenuOptions.SECURITY">
           <h3 class="text-xl font-bold">security:</h3>
+          <SecurityForm />
         </template>
       </div>
     </div>

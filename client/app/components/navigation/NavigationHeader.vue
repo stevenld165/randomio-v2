@@ -8,7 +8,13 @@ const user = computed(() => session.value.data?.user)
 const menuItems = computed(() => [
   {
     label: "edit show list",
+    icon: PrimeIcons.PEN_TO_SQUARE,
     command: handleNavigateToEdit,
+  },
+  {
+    label: "account settings",
+    icon: PrimeIcons.COG,
+    command: handleNavigateToSettings,
   },
   {
     label: "log out",
@@ -25,6 +31,10 @@ const handleNavigateToEdit = async () => {
 
 const handleLogOut = async () => {
   return navigateTo("/logout")
+}
+
+const handleNavigateToSettings = async () => {
+  return navigateTo("/settings")
 }
 
 const navMenuRef = useTemplateRef("navMenu")
