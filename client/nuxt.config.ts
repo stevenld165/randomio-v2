@@ -24,7 +24,7 @@ const randomioPreset = definePreset(Aura, {
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["@pinia/nuxt", "@primevue/nuxt-module", "@nuxt/icon"],
+  modules: ["@pinia/nuxt", "@primevue/nuxt-module", "@nuxt/icon", "@nuxt/image"],
   primevue: {
     options: {
       theme: {

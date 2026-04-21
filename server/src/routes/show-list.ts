@@ -40,6 +40,7 @@ router.post("/add", authenticate, async (req: Request, res: Response) => {
     const showListEntry: typeof showListEntries.$inferInsert = {
       userId: userId,
       imdbId: imdbId,
+      excludedSeasons: [0],
     }
 
     const dbInsert = await db
