@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { resolveAlias } from "nuxt/kit"
 import type { RandomioResponse } from "~/types/dtos"
 
 const props = defineProps<{
