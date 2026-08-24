@@ -23,7 +23,7 @@ watchEffect(async () => {
       <h2 class="font-bold">{{ roll?.selectedShow.title }}</h2>
       <span>({{ roll?.selectedShow.releaseYear }})</span>
     </div>
-    <NuxtImg
+    <img
       v-if="validImg"
       :src="roll?.selectedEpisode.thumbnail"
       class="min-w-0 max-h-[35vh] rounded-3xl drop-shadow-md transition-all"
