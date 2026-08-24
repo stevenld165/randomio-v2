@@ -1,6 +1,8 @@
 # Randomio V2
 Live at https://randomio.rinini.dev/
 
+<img width="1182" height="652" alt="Recording2026-08-24154812-ezgif com-optimize" src="https://github.com/user-attachments/assets/d44f59ec-cb3b-4e55-9ac5-4944f7ae7f42" />
+
 > Miss the days of turning on the TV and just watching whatever is on? Emulate the ease of life with Randomio!
 
 This is a remake of [Randomio](https://github.com/stevenld165/randomio-webapp) using Express.js as a backend, and Nuxt.js as a frontend. The goal of this remake is to incorporate more user-friendly UI, and individual user accounts that store user's lists of shows.
