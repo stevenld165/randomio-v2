@@ -37,5 +37,6 @@ export const auth = betterAuth({
         `Click the link to verify your email: ${url}`,
       )
     },
+    sendOnSignUp: true,
   },
 })
