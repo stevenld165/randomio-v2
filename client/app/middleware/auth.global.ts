@@ -18,6 +18,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     return
   }
 
-  if (to.path == "/login" || to.path == "/create-account") return
+  if (
+    to.path == "/login" ||
+    to.path == "/create-account" ||
+    to.path == "/reset-password"
+  )
+    return
   else return navigateTo("/login")
 })
