@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { FormResolverOptions, FormSubmitEvent } from "@primevue/forms"
+import { CLIENT_URL } from "~/constants/api"
 import { authClient } from "~/lib/auth-client"
 import ToastManager from "~/services/ToastManager"
 
@@ -68,6 +69,22 @@ const handleSubmit = async (e: FormSubmitEvent) => {
     ToastManager.showToast(toast, "error", "Something went wrong", "" + error)
   }
 }
+
+const handleResendEmail = async () => {
+  try {
+    authClient.sendVerificationEmail({
+      email: userData.value?.email ?? "",
+      callbackURL: CLIENT_URL,
+    })
+    ToastManager.showToast(
+      toast,
+      "success",
+      "Successfully sent verification email. Please check your spam.",
+    )
+  } catch (error) {
+    ToastManager.showToast(toast, "error", "Something went wrong", "" + error)
+  }
+}
 </script>
 <template>
   <Form
@@ -88,13 +105,21 @@ const handleSubmit = async (e: FormSubmitEvent) => {
     </div>
     <div class="flex flex-col">
       <label for="account-settings-email">email:</label>
-      <InputText
-        id="account-settings-email"
-        name="email"
-        type="email"
-        placeholder="johndoe@email.com"
-        disabled
-      />
+      <span class="flex gap-2">
+        <InputText
+          id="account-settings-email"
+          name="email"
+          type="email"
+          placeholder="johndoe@email.com"
+          disabled
+        />
+        <Button
+          v-if="!userData?.emailVerified"
+          label="resend verification email"
+          @click="handleResendEmail"
+        />
+      </span>
+
       <span class="text-green-400" v-if="userData?.emailVerified"
         >email is verified</span
       >
